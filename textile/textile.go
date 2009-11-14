@@ -5,21 +5,20 @@ import "strings"
 
 type phraseModifier struct {
 	sep	string;
-	re	*regexp.Regexp;
 	el	string;
+	re	*regexp.Regexp;
 }
 
 var phraseModifiers = []phraseModifier{
-	phraseModifier{"*", regexp.MustCompile("\\*[a-z]*\\*"), "strong"},
-	phraseModifier{"+", regexp.MustCompile("\\+[^+]*\\+"), "ins"},
-	phraseModifier{"-", regexp.MustCompile("-[^\\-]*-"), "del"},
-	phraseModifier{"_", regexp.MustCompile("_[a-z]*_"), "em"},
+	phraseModifier{"*", "strong", regexp.MustCompile("\\*[a-z]*\\*")},
+	phraseModifier{"+", "ins", regexp.MustCompile("\\+[^+]*\\+")},
+	phraseModifier{"-", "del", regexp.MustCompile("-[^\\-]*-")},
+	phraseModifier{"_", "em", regexp.MustCompile("_[a-z]*_")},
 }
 
 func TextileToHtml(input string) (output string, ok bool, errtok string) {
-
-	for i := 0; i < len(phraseModifiers); i++ {
-		pm := phraseModifiers[i];
+	output += "<p>";
+	for _, pm := range phraseModifiers {
 		if pm.re.MatchString(input) {
 			for _, s := range strings.Split(input, pm.sep, 0) {
 				if len(s) > 0 {
@@ -30,6 +29,6 @@ func TextileToHtml(input string) (output string, ok bool, errtok string) {
 			}
 		}
 	}
-
+	output += "</p>";
 	return output, true, "";
 }

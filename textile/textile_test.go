@@ -4,10 +4,10 @@ import "testing"
 
 func TestBasicPhraseModifiers(t *testing.T) {
 	tests := map[string]string{
-		"*never*": "<strong>never</strong>",
-		"_believe_": "<em>believe</em>",
-		"-Al Gore-": "<del>Al Gore</del>",
-		"+George W. Bush+": "<ins>George W. Bush</ins>",
+		"*never*": "<p><strong>never</strong></p>",
+		"_believe_": "<p><em>believe</em></p>",
+		"-Al Gore-": "<p><del>Al Gore</del></p>",
+		"+George W. Bush+": "<p><ins>George W. Bush</ins></p>",
 	};
 	for input, expected := range tests {
 		observed, ok, errtok := TextileToHtml(input);
