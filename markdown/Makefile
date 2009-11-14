@@ -1,6 +1,6 @@
 include $(GOROOT)/src/Make.$(GOARCH)
 
-TARG=main
+TARG=markdown
 GOFILES=\
 	markdown.go\
 
