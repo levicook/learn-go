@@ -11,8 +11,8 @@ type phraseModifier struct {
 
 var phraseModifiers = []phraseModifier{
 	phraseModifier{"*", regexp.MustCompile("\\*[a-z]*\\*"), "strong"},
-	phraseModifier{"+", regexp.MustCompile("\\+[a-z]*\\+"), "ins"},	// TODO
-	phraseModifier{"-", regexp.MustCompile("-[a-z]*-"), "del"},	// TODO
+	phraseModifier{"+", regexp.MustCompile("\\+[^+]*\\+"), "ins"},
+	phraseModifier{"-", regexp.MustCompile("-[^\\-]*-"), "del"},
 	phraseModifier{"_", regexp.MustCompile("_[a-z]*_"), "em"},
 }
 
@@ -21,7 +21,6 @@ func TextileToHtml(input string) (output string, ok bool, errtok string) {
 	for i := 0; i < len(phraseModifiers); i++ {
 		pm := phraseModifiers[i];
 		if pm.re.MatchString(input) {
-      // print(input); print(" matched!"); print(pm.re); println();
 			for _, s := range strings.Split(input, pm.sep, 0) {
 				if len(s) > 0 {
 					output += "<" + pm.el + ">";
