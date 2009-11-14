@@ -15,18 +15,7 @@ func TestBasicPhraseModifiers(t *testing.T) {
 			t.Fatalf("TextileToHtml failed near %s", errtok)
 		}
 		if observed != expected {
-			t.Errorf("%s != %s", observed, expected)
+			t.Errorf("[%s] <> [%s]", observed, expected)
 		}
 	}
 }
-
-
-/*
-func check(t *testing.T, ok bool, name string, v interface{}) {
-	if ok {
-		t.Logf("%s = %v (good)", name, v)
-	} else {
-		t.Errorf("%s = %v (BAD)", name, v)
-	}
-}
-*/
