@@ -26,7 +26,7 @@ func TestRedClothFixtures(t *testing.T) {
 	dirEntries, err := io.ReadDir(dirName);
 	doTheAngryErrorThing(t, err);
 	for _, de := range dirEntries {
-		if strings.HasSuffix(de.Name, "basic.json") {
+		if strings.HasSuffix(de.Name, ".json") {
 			bytes, err := io.ReadFile(dirName + "/" + de.Name);
 			doTheAngryErrorThing(t, err);
 			s := string(bytes);

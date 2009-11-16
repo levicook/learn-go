@@ -47,9 +47,11 @@ func (pm *phraseModifier) translate(input string) (output string) {
 				output += "</" + pm.el + ">";
 			}
 		}
-		if len(after) > 0 {
+		if pm.re.MatchString(after) {
 			//slog("Recurs", after);
 			output += pm.translate(after)
+		} else {
+			output += after
 		}
 	}
 	return output;
