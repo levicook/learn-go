@@ -6,12 +6,15 @@ import "strings"
 func TextileToHtml(input string) (output string, ok bool, errtok string) {
 	lines := strings.Split(input, "\n", 0);
 	for i, line := range lines {
-		if blankLine.MatchString(strings.TrimSpace(line)) {
+		line = strings.TrimSpace(line);
+		if len(line) == 0 {
 			continue
 		}
 		line = "<p>" + line;
 		for _, pm := range phraseModifiers {
-			line = pm.translate(line)
+			if pm.re.MatchString(line) {
+				line = pm.translate(line)
+			}
 		}
 		line += "</p>";
 		if i > 0 {
@@ -22,9 +25,9 @@ func TextileToHtml(input string) (output string, ok bool, errtok string) {
 	return output, true, "";
 }
 
-// Helpers?
-// --------
-var blankLine = regexp.MustCompile(`^$`)
+// Block Modifiers
+// ---------------
+
 
 // Phrase Modifiers
 // ----------------
@@ -35,11 +38,22 @@ type phraseModifier struct {
 	re	*regexp.Regexp;
 }
 
+/*
+
+*/
+
 var phraseModifiers = []phraseModifier{
+	phraseModifier{"**", "b", regexp.MustCompile(`\*\*[^*]*\*\*`)},
 	phraseModifier{"*", "strong", regexp.MustCompile(`(\*[^ ][^*]*\*)`)},
 	phraseModifier{"+", "ins", regexp.MustCompile(`\+[^+]*\+`)},
 	phraseModifier{"-", "del", regexp.MustCompile(`-[^\-]*-`)},
-	phraseModifier{"_", "em", regexp.MustCompile(`_[a-z]*_`)},
+	phraseModifier{"__", "i", regexp.MustCompile(`__[^_]*__`)},
+	phraseModifier{"_", "em", regexp.MustCompile(`_[^_]*_`)},
+	phraseModifier{"%", "span", regexp.MustCompile(`%[^%]*%`)},
+	phraseModifier{"~", "sub", regexp.MustCompile(`~[^~]*~`)},
+	phraseModifier{"^", "sup", regexp.MustCompile(`\^[^^]*\^`)},
+	phraseModifier{"@", "code", regexp.MustCompile(`@[^@]*@`)},
+	phraseModifier{"??", "cite", regexp.MustCompile(`\?\?[^?]*\?\?`)},
 }
 
 func (pm *phraseModifier) translate(input string) (output string) {
@@ -63,9 +77,8 @@ func (pm *phraseModifier) translate(input string) (output string) {
 		} else {
 			output += after
 		}
-		return output;
 	}
-	return input;
+	return output;
 }
 
 

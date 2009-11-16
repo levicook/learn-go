@@ -6,18 +6,25 @@ import "os"
 import "strings"
 import "testing"
 
-var simplePhraseModifiers = map[string]string{
-	"*never*": "<p><strong>never</strong></p>",
+var basicPhraseModifiers = map[string]string{
 	"*never* * ever* *sometimes*": "<p><strong>never</strong> * ever* <strong>sometimes</strong></p>",
-	"_believe_": "<p><em>believe</em></p>",
-	"-Al Gore-": "<p><del>Al Gore</del></p>",
+	"*never*": "<p><strong>never</strong></p>",
 	"+George W. Bush+": "<p><ins>George W. Bush</ins></p>",
+	"-Al Gore-": "<p><del>Al Gore</del></p>",
+	"_believe_": "<p><em>believe</em></p>",
+	"%span%": "<p><span>span</span></p>",
+	"**bold**": "<p><b>bold</b></p>",
+	"??citation??": "<p><cite>citation</cite></p>",
+	"@code@": "<p><code>code</code></p>",
+	"^superscript^": "<p><sup>superscript</sup></p>",
+	"__italic__ ": "<p><i>italic</i></p>",
+	"~subscript~": "<p><sub>subscript</sub></p>",
 }
 
 func TestBasicPhraseModifiers(t *testing.T) {
-	for input, expected := range simplePhraseModifiers {
+	for input, expected := range basicPhraseModifiers {
 		observed, ok, errtok := TextileToHtml(input);
-		check(t, ok, errtok, input, expected, observed, "simplePhraseModifiers");
+		check(t, ok, errtok, input, expected, observed, "basicPhraseModifiers");
 	}
 }
 
@@ -58,7 +65,7 @@ func check(t *testing.T, ok bool, errtok string, input string, expected string, 
 		t.Fatalf("TextileToHtml failed near %s", errtok)
 	}
 	if expected != observed {
-		//t.Errorf("\nTest: %s\nInput: %s\nExpected: %s\nObserved: %s", name, input, expected, observed)
-		t.Fatalf("\nTest: %s\nInput: %s\nExpected: %s\nObserved: %s", name, input, expected, observed)
+		t.Errorf("\nTest: %s\nInput: %s\nExpected: %s\nObserved: %s", name, input, expected, observed)
+		//t.Fatalf("\nTest: %s\nInput: %s\nExpected: %s\nObserved: %s", name, input, expected, observed)
 	}
 }

@@ -5,4 +5,3 @@ GOFILES=\
 	textile.go\
 
 include $(GOROOT)/src/Make.pkg
-
