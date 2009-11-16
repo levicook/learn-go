@@ -21,12 +21,19 @@ func TestBasicPhraseModifiers(t *testing.T) {
 	}
 }
 
+func TestBoldedParagraph(t *testing.T) {
+	input := "*- I would expect it to be a bolded paragraph.*";
+	expected := "<p><strong>- I would expect it to be a bolded paragraph.</strong></p>";
+	observed, ok, errtok := TextileToHtml(input);
+	check(t, ok, errtok, input, expected, observed, "Bolded Paragraph");
+}
+
 func TestRedClothFixtures(t *testing.T) {
 	dirName := "textile_test";
 	dirEntries, err := io.ReadDir(dirName);
 	doTheAngryErrorThing(t, err);
 	for _, de := range dirEntries {
-		if strings.HasSuffix(de.Name, ".json") {
+		if strings.HasSuffix(de.Name, "basic.json") {
 			bytes, err := io.ReadFile(dirName + "/" + de.Name);
 			doTheAngryErrorThing(t, err);
 			s := string(bytes);
@@ -58,6 +65,7 @@ func check(t *testing.T, ok bool, errtok string, input string, expected string, 
 		t.Fatalf("TextileToHtml failed near %s", errtok)
 	}
 	if expected != observed {
-		t.Errorf("\nTest: %s\nInput: %s\nExpected: %s\nObserved: %s", name, input, expected, observed)
+		//t.Errorf("\nTest: %s\nInput: %s\nExpected: %s\nObserved: %s", name, input, expected, observed)
+		t.Fatalf("\nTest: %s\nInput: %s\nExpected: %s\nObserved: %s", name, input, expected, observed)
 	}
 }

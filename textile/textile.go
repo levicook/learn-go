@@ -26,7 +26,7 @@ type phraseModifier struct {
 }
 
 var phraseModifiers = []phraseModifier{
-	phraseModifier{"*", "strong", regexp.MustCompile(`(\*[^ *]*\*)`)},
+	phraseModifier{"*", "strong", regexp.MustCompile(`(\*[^ ][^*]*\*)`)},
 	phraseModifier{"+", "ins", regexp.MustCompile(`\+[^+]*\+`)},
 	phraseModifier{"-", "del", regexp.MustCompile(`-[^\-]*-`)},
 	phraseModifier{"_", "em", regexp.MustCompile(`_[a-z]*_`)},
