@@ -21,13 +21,6 @@ func TestBasicPhraseModifiers(t *testing.T) {
 	}
 }
 
-func TestBoldedParagraph(t *testing.T) {
-	input := "*- I would expect it to be a bolded paragraph.*";
-	expected := "<p><strong>- I would expect it to be a bolded paragraph.</strong></p>";
-	observed, ok, errtok := TextileToHtml(input);
-	check(t, ok, errtok, input, expected, observed, "Bolded Paragraph");
-}
-
 func TestRedClothFixtures(t *testing.T) {
 	dirName := "textile_test";
 	dirEntries, err := io.ReadDir(dirName);

@@ -4,17 +4,27 @@ import "regexp"
 import "strings"
 
 func TextileToHtml(input string) (output string, ok bool, errtok string) {
-	output += "<p>";
-	for _, pm := range phraseModifiers {
-		output += pm.translate(input)
+	lines := strings.Split(input, "\n", 0);
+	for i, line := range lines {
+		if blankLine.MatchString(strings.TrimSpace(line)) {
+			continue
+		}
+		line = "<p>" + line;
+		for _, pm := range phraseModifiers {
+			line = pm.translate(line)
+		}
+		line += "</p>";
+		if i > 0 {
+			output += "\n"
+		}
+		output += line;
 	}
-	output += "</p>";
 	return output, true, "";
 }
 
-func split(s string, i int, j int) (before string, match string, after string) {
-	return before, match, after
-}
+// Helpers?
+// --------
+var blankLine = regexp.MustCompile(`^$`)
 
 // Phrase Modifiers
 // ----------------
@@ -53,8 +63,9 @@ func (pm *phraseModifier) translate(input string) (output string) {
 		} else {
 			output += after
 		}
+		return output;
 	}
-	return output;
+	return input;
 }
 
 
