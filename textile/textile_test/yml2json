@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+%w(rubygems json yaml).each { |lib| require lib }
+
+Dir.glob("*.yml").each do |yfn|
+  tests = []
+  open(yfn, 'r') do |yf|
+    YAML.each_document(yf) do |ydoc|
+      tests << ydoc
+    end
+  end
+  open("#{File.basename(yfn, '.yml')}.json", 'w') do |jf| 
+    jf << tests.to_json
+  end
+end
